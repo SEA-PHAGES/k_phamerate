@@ -1073,6 +1073,25 @@ def review_evaluation_list(evaluation_list, interactive=False):
         log_and_print(f"No warnings or errors encountered.", interactive)
     return exit
 
+def read_input_file(filename) {
+    input_file = open(filename, 'r');
+
+    response = input_file.readline();
+
+    if response.lower() in ("yes", "y", "t", "true"):
+        response = True
+        response_valid = True
+    elif response.lower() in ("no", "n", "f", "false", ""):
+        response = False
+        response_valid = True
+    elif response.lower() in ("exit", "quit", "q"):
+        response = None
+        response_valid = True
+
+    return response
+        
+}
+
 
 def review_evaluation(evl, interactive=False):
     """Review an evaluation object.
@@ -1098,12 +1117,15 @@ def review_evaluation(evl, interactive=False):
         if interactive == True:
             # If interactive is set to True, ask user if 'warning'
             # is correct, and change the status as needed.
-            print("\n\nThe following evaluation is set to 'warning':")
-            print(summary)
-            prompt = ("\nThis evaluation will remain as a 'warning' "
-                      "(instead of it being changed to an 'error'). "
-                      "Is this correct? (yes/no/exit) ")
-            result = basic.ask_yes_no(prompt=prompt, response_attempt=3)
+
+            # print("\n\nThe following evaluation is set to 'warning':")
+            # print(summary)
+            # prompt = ("\nThis evaluation will remain as a 'warning' "
+            #          "(instead of it being changed to an 'error'). "
+            #          "Is this correct? (yes/no/exit) ")
+
+
+            result = read_input_file("import_input.txt");
             # result can be True, False, or None
             if result != True:
                 evl.status = "error"
